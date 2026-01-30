@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Princess 💕</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Trebuchet MS', sans-serif;
+    overflow: hidden;
+  }
+
+  /* Floating background hearts */
+  .bg-heart {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 20px;
+    z-index: 0;
+    animation: floatUp 6s linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  .container {
+    background: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    z-index: 10;
+    max-width: 450px;
+    position: relative;
+    animation: fadeIn 0.8s ease;
+  }
+
+  h1 { font-size: 28px; color: #ff2f63; line-height: 1.4; }
+  p { font-size: 18px; margin-bottom: 25px; color: #555; }
+
+  .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+  button {
+    font-size: 18px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  button:hover { transform: scale(1.1) translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+  .primary { background: #ff2f63; color: white; }
+  .secondary { background: #f0f0f0; color: #666; }
+
+  .hidden { display: none; }
+
+  /* Custom Pop-up Styles */
+  #customModal {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 100px rgba(0,0,0,0.5);
+    z-index: 100;
+    text-align: center;
+    min-width: 250px;
+  }
+
+  /* Celebration Emojis */
+  .heart-burst {
+    position: absolute;
+    font-size: 30px;
+    user-select: none;
+    pointer-events: none;
+    z-index: 99;
+    animation: burst 2s ease-out forwards;
+  }
+
+  @keyframes burst {
+    from { transform: translate(0,0) scale(1); opacity: 1; }
+    to { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(2); opacity: 0; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="container" id="stage1">
+    <h1>Hi Princess, I've been meaning to ask you something 💕</h1>
+    <div class="btn-group">
+      <button class="primary" onclick="goToStage2()">What is it? ✨</button>
+      <button class="secondary" onclick="showCareModal()">I don't really care 🙄</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="stage2">
+    <h1>Will you be my Valentine? 🌹</h1>
+    <div class="btn-group">
+      <button class="primary" onclick="celebrate()">Yes 💖</button>
+      <button class="secondary" onclick="showGirlByeModal()">No 😭</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="stage3">
+    <h1>YAY! YOU SAID YES! 💖🌸🍫</h1>
+    <p>I love youuu ✨💐</p>
+  </div>
+
+  <div id="customModal" class="hidden">
+    <h2 id="modalText">Well too bad, go back</h2>
+    <button class="primary" onclick="closeModal()">Back ❤️</button>
+  </div>
+
+  <script>
+    // Create background floating hearts automatically
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "bg-heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }, 300);
+
+    function goToStage2() {
+      document.getElementById("stage1").classList.add("hidden");
+      document.getElementById("stage2").classList.remove("hidden");
+    }
+
+    // Modal for "I don't care"
+    function showCareModal() {
+      document.getElementById("modalText").innerText = "Well too bad, go back";
+      document.getElementById("customModal").classList.remove("hidden");
+    }
+
+    // Modal for "No"
+    function showGirlByeModal() {
+      document.getElementById("modalText").innerText = "girl bye, pick again";
+      document.getElementById("customModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("customModal").classList.add("hidden");
+    }
+
+    function celebrate() {
+      document.getElementById("stage2").classList.add("hidden");
+      document.getElementById("stage3").classList.remove("hidden");
+      
+      // CRAZY ANIMATION
+      const items = ["💖","💘","❤️","🌸","🍫","💐","✨","🍓","🧸"];
+      for (let i = 0; i < 150; i++) {
+        setTimeout(() => {
+          const h = document.createElement("div");
+          h.className = "heart-burst";
+          h.innerText = items[Math.floor(Math.random() * items.length)];
+          h.style.left = "50vw";
+          h.style.top = "50vh";
+          h.style.setProperty("--x", `${(Math.random() - 0.5) * 1000}px`);
+          h.style.setProperty("--y", `${(Math.random() - 0.5) * 1000}px`);
+          h.style.setProperty("--r", `${Math.random() * 360}deg`);
+          document.body.appendChild(h);
+          setTimeout(() => h.remove(), 2000);
+        }, i * 10);
+      }
+    }
+  </script>
+
+</body>
+</html>
